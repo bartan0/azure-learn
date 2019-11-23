@@ -1,0 +1,8 @@
+version: '3.5'
+services:
+    functionapp:
+        build: './functionapp'
+        volumes:
+            - '$FUNCTIONAPP_DIR:/home/azure/functionapp:ro'
+        ports:
+            - '$FUNCTIONAPP_PORT:7071'

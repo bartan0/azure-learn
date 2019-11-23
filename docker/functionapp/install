@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+set -x
+
+cat >/etc/apt/apt.conf <<EOF
+APT {
+	Install-Recommends 0;
+	Install-Suggests 0;
+}
+EOF
+
+apt update
+apt-get install -y \
+	nodejs \
+	npm \
+	tini
+
+npm install --global --unsafe-perm \
+	azure-functions-core-tools
+
+useradd -m azure
+
+node --version
+npm --version
+func --version

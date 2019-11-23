@@ -1,0 +1,27 @@
+#!/bin/bash
+
+cd $(dirname $0)
+source ./config
+
+FUNCTIONAPP_DIR=$(realpath $FUNCTIONAPP_DIR)
+
+# Export all config vars
+#
+export $(awk '
+	BEGIN { FS = "=" }
+	{ print $1 }
+' <./config)
+
+CMD=$1
+shift
+
+case $CMD in
+
+	(docker) docker-compose \
+		-f./docker/docker-compose.yml \
+		-p$PROJECT_NAME \
+		$@
+		;;
+
+	(*) echo "$CMD: Unknown command";;
+esac
