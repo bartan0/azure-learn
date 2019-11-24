@@ -1,5 +1,5 @@
 PROJECT_NAME=azure-learn
-FUNCTIONAPP_DIR=./functionapp
+FUNCTIONAPP_DIR=./dist/functionapp
 FUNCTIONAPP_PORT=8100
 NGINX_DIR=./dist/webapp
 NGINX_PORT=8080

@@ -1,11 +1,13 @@
-const HTTP = require('http-status-codes')
+import HTTP from 'http-status-codes'
+
+import 'file-loader?name=./login/function.json!./function.json.in'
 
 
 const RE_AUTH_BASIC = /^Basic\s+([A-Za-z0-9+/]+={0,2})$/
 const RE_AUTH_BASIC_UNAME_PASS = /^(\w+):(.*)$/
 
 
-module.exports = async ({ bindings: { req } }) => {
+export default async ({ bindings: { req } }) => {
 	const auth = req.headers.authorization
 
 	if (!auth)

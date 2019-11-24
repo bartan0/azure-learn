@@ -2,6 +2,8 @@
 	"name": "azure-learn",
 	"version": "0.0.0",
 	"scripts": {
+		"functionapp-build": "webpack --config functionapp/webpack.js",
+		"functionapp-build-watch": "webpack --config functionapp/webpack.js --watch",
 		"webapp-build": "webpack --config webapp/webpack.js",
 		"webapp-build-watch": "webpack --config webapp/webpack.js --watch"
 	},
