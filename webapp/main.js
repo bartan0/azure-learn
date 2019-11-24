@@ -1,14 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
 import { createAppRoot } from './dom'
+import Store from './store'
 import UI from './ui'
 
 
 export default async () => {
 	const root = await createAppRoot()
-	const ui =
-		<UI/>
+	const store = Store()
+	const app =
+		<Provider store={store}>
+			<UI/>
+		</Provider>
 
-	ReactDOM.render(ui, root)
+	ReactDOM.render(app, root)
 }
