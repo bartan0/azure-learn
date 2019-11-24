@@ -1,8 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
+[ $(whoami) = 'mongodb' ] && exec mongod \
+	--bind_ip_all \
+	--dbpath /var/db/data
+
+
 mkdir -p /var/db/data && chown mongodb /var/db/data
 
-exec mongod \
-	--dbpath /var/db/data
+exec su -s/bin/sh -c"$0" mongodb

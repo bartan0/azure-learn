@@ -1,0 +1,6 @@
+{
+	"IsEncrypted": false,
+	"Values": {
+		"MONGO_URL": "mongodb://mongo:27017/develop"
+	}
+}

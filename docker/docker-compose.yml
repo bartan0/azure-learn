@@ -6,11 +6,17 @@ services:
             - '$FUNCTIONAPP_DIR:/home/azure/functionapp:ro'
         ports:
             - '$FUNCTIONAPP_PORT:7071'
+        networks:
+            cloud:
 
     mongo:
         build: './mongo'
         volumes:
             - 'database:/var/db'
+        networks:
+            cloud:
+                aliases:
+                    - 'mongo'
 
     nginx:
         build: './nginx'
@@ -18,6 +24,9 @@ services:
             - '$NGINX_DIR:/var/www/data:ro'
         ports:
             - '$NGINX_PORT:80'
+
+networks:
+    cloud:
 
 volumes:
     database:
