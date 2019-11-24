@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+MANAGE=./manage
+
 cd $(dirname $0)
 source ./config
 
@@ -18,10 +22,15 @@ shift
 
 case $CMD in
 
-	(docker) docker-compose \
-		-f./docker/docker-compose.yml \
-		-p$PROJECT_NAME \
-		$@
+	(docker) _DOCKER_ARGS="$@" exec $MANAGE _docker ;;
+
+	(sh|shell) _DOCKER_ARGS="exec $1 sh" exec $MANAGE _docker ;;
+
+	(_docker)
+		env $DOCKER_ENV docker-compose \
+			-p$PROJECT_NAME \
+			-f./docker/docker-compose.yml \
+			$_DOCKER_ARGS
 		;;
 
 	(*) echo "$CMD: Unknown command";;

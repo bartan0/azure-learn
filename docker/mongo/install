@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+set -x
+
+cat >/etc/apt/apt.conf <<EOF
+APT {
+	Install-Recommends 0;
+	Install-Suggests 0;
+}
+EOF
+
+apt-get update
+apt-get install -y \
+	apt-transport-https \
+	ca-certificates
+
+echo 'deb https://repo.mongodb.org/apt/debian buster/mongodb-org/4.2 main' \
+	>/etc/apt/sources.list.d/mongodb.list
+
+apt-get update
+apt-get install -y \
+	mongodb-org \
+	mongodb-org-tools
+
+mongod --version
+mongo --version

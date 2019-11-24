@@ -7,9 +7,17 @@ services:
         ports:
             - '$FUNCTIONAPP_PORT:7071'
 
+    mongo:
+        build: './mongo'
+        volumes:
+            - 'database:/var/db'
+
     nginx:
         build: './nginx'
         volumes:
             - '$NGINX_DIR:/var/www/data:ro'
         ports:
             - '$NGINX_PORT:80'
+
+volumes:
+    database:
