@@ -4,6 +4,7 @@ cd $(dirname $0)
 source ./config
 
 FUNCTIONAPP_DIR=$(realpath $FUNCTIONAPP_DIR)
+NGINX_DIR=$(realpath $NGINX_DIR)
 
 # Export all config vars
 #

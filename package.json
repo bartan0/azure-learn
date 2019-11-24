@@ -1,0 +1,22 @@
+{
+	"name": "azure-learn",
+	"version": "0.0.0",
+	"scripts": {
+		"build": "webpack",
+		"build-watch": "webpack --watch"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.7.4",
+		"@babel/preset-env": "^7.7.4",
+		"@babel/preset-react": "^7.7.4",
+		"babel-loader": "^8.0.6",
+		"css-loader": "^3.2.0",
+		"extract-loader": "^3.1.0",
+		"file-loader": "^4.3.0",
+		"html-loader": "^0.5.5",
+		"sass-loader": "^8.0.0",
+		"sass-node": "^4.11.2",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.10"
+	}
+}
