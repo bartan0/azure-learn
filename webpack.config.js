@@ -22,6 +22,9 @@ module.exports = {
 					presets: [
 						[ '@babel/preset-env', { targets: '> 1%, not dead' } ],
 						'@babel/preset-react'
+					],
+					plugins: [
+						'@babel/plugin-proposal-export-default-from'
 					]
 				}
 			} },

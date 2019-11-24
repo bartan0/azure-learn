@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 
 import { createAppRoot } from './dom'
 import Store from './store'
-import UI from './ui'
+import Router from './router'
 
 
 export default async () => {
@@ -12,7 +12,7 @@ export default async () => {
 	const store = Store()
 	const app =
 		<Provider store={store}>
-			<UI/>
+			<Router/>
 		</Provider>
 
 	ReactDOM.render(app, root)

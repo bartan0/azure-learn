@@ -1,15 +1,17 @@
-import { createStore } from 'redux'
+import { combineReducers, createStore } from 'redux'
+
+import me from './me'
 
 
-const reducer = (state, { type, payload }) => {
-	switch (type) {
+export default () => createStore(combineReducers({
+	me,
+	$: (state = null, { type, payload }) => {
+		switch (type) {
+			case 'LOGIN':
+				console.log(type, payload)
 
-		default:
-			return state
+			default:
+				return state
+		}
 	}
-}
-
-
-export default () => {
-	return createStore(reducer)
-}
+}))
