@@ -2,8 +2,8 @@
 	"name": "azure-learn",
 	"version": "0.0.0",
 	"scripts": {
-		"build": "webpack",
-		"build-watch": "webpack --watch"
+		"webapp-build": "webpack --config webapp/webpack.js",
+		"webapp-build-watch": "webpack --config webapp/webpack.js --watch"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.7.4",

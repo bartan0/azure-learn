@@ -2,7 +2,7 @@ const { resolve } = require('path')
 
 
 module.exports = {
-	context: resolve(__dirname),
+	context: resolve(__dirname, '..'),
 	entry: {
 		'main.js': './webapp/index.js'
 	},
@@ -10,7 +10,7 @@ module.exports = {
 	mode: 'development',
 
 	output: {
-		path: resolve(__dirname, 'dist', 'webapp'),
+		path: resolve(__dirname, '..', 'dist', 'webapp'),
 		filename: './_res/[name]'
 	},
 
