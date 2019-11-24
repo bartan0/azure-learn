@@ -1,17 +1,8 @@
-import { combineReducers, createStore } from 'redux'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
 
 import me from './me'
 
 
-export default () => createStore(combineReducers({
+export default saga => createStore(combineReducers({
 	me,
-	$: (state = null, { type, payload }) => {
-		switch (type) {
-			case 'LOGIN':
-				console.log(type, payload)
-
-			default:
-				return state
-		}
-	}
-}))
+}), undefined, applyMiddleware(saga))
