@@ -6,6 +6,7 @@ module.exports = {
 	entry: {
 		'./index.js': './functionapp/index.js',
 		'./login/index.js': './functionapp/login/index.js',
+		'./register/index.js': './functionapp/register/index.js',
 	},
 	target: 'node',
 	mode: 'development',
