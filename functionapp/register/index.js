@@ -3,6 +3,7 @@ import qs from 'querystring'
 import { MongoClient } from 'mongodb'
 
 import { key } from '../lib/pbkdf2'
+import JWT from '../lib/jwt'
 
 import 'file-loader?name=./register/function.json!./function.json.in'
 
@@ -16,11 +17,14 @@ const addUser = async (username, password, isAdmin = false) => {
 	if (await users.findOne({ username }))
 		throw null
 
-	await users.insertOne({
+	const roles = [ isAdmin ? 'admin' : 'user' ]
+	const { insertedId } = await users.insertOne({
 		username,
 		key: await key(password),
-		roles: [ isAdmin ? 'admin' : 'user' ]
+		roles
 	})
+
+	return { _id: insertedId, roles }
 }
 
 
@@ -30,11 +34,11 @@ export default async ({ bindings: { req } }) => {
 	const { username, password, adminKey } = qs.parse(req.body)
 
 	try {
-		await addUser(username, password, adminKey === REGISTER_ADMIN_KEY)
+		const authz = await addUser(username, password, adminKey === REGISTER_ADMIN_KEY)
 
 		return { res: {
 			status: HTTP.OK,
-			body: ''
+			body: await JWT(authz)
 		} }
 
 	} catch (err) {

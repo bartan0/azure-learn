@@ -2,6 +2,7 @@
 	"IsEncrypted": false,
 	"Values": {
 		"MONGO_URL": "mongodb://mongo:27017/develop",
-		"REGISTER_ADMIN_KEY": "8752-d6ac-ec9f-a77f"
+		"REGISTER_ADMIN_KEY": "8752-d6ac-ec9f-a77f",
+		"JWT_SECRET": "acb8-ba2d-6942-b7f5"
 	}
 }
