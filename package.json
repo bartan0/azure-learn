@@ -5,7 +5,9 @@
 		"functionapp-build": "webpack --config functionapp/webpack.js",
 		"functionapp-build-watch": "webpack --config functionapp/webpack.js --watch",
 		"webapp-build": "webpack --config webapp/webpack.js",
-		"webapp-build-watch": "webpack --config webapp/webpack.js --watch"
+		"webapp-build-watch": "webpack --config webapp/webpack.js --watch",
+		"serverapp-build": "webpack --config serverapp/webpack.js",
+		"serverapp-build-watch": "webpack --config serverapp/webpack.js --watch"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.7.4",
