@@ -2,6 +2,8 @@ import HTTP from 'http-status-codes'
 import qs from 'querystring'
 import { MongoClient } from 'mongodb'
 
+import { key } from '../lib/pbkdf2'
+
 import 'file-loader?name=./register/function.json!./function.json.in'
 
 
@@ -14,7 +16,10 @@ const addUser = async (username, password) => {
 	if (await users.findOne({ username }))
 		throw null
 
-	await users.insertOne({ username, password })
+	await users.insertOne({
+		username,
+		key: await key(password)
+	})
 }
 
 

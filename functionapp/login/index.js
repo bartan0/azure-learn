@@ -2,6 +2,8 @@ import qs from 'querystring'
 import HTTP from 'http-status-codes'
 import { MongoClient } from 'mongodb'
 
+import { verify } from '../lib/pbkdf2'
+
 import 'file-loader?name=./login/function.json!./function.json.in'
 
 
@@ -11,7 +13,9 @@ const authenticate = async (username, password) => {
 	const users = await MongoClient.connect(MONGO_URL)
 		.then(conn => conn.db().collection('users'))
 
-	return await users.findOne({ username, password })
+	const user = await users.findOne({ username })
+
+	return user && await verify(password, user.key)
 }
 
 
