@@ -7,7 +7,7 @@ import { key } from '../lib/pbkdf2'
 import 'file-loader?name=./register/function.json!./function.json.in'
 
 
-const addUser = async (username, password) => {
+const addUser = async (username, password, isAdmin = false) => {
 	const { MONGO_URL } = process.env
 
 	const users = await MongoClient.connect(MONGO_URL)
@@ -18,16 +18,19 @@ const addUser = async (username, password) => {
 
 	await users.insertOne({
 		username,
-		key: await key(password)
+		key: await key(password),
+		roles: [ isAdmin ? 'admin' : 'user' ]
 	})
 }
 
 
 export default async ({ bindings: { req } }) => {
-	const { username, password } = qs.parse(req.body)
+	const { REGISTER_ADMIN_KEY } = process.env
+
+	const { username, password, adminKey } = qs.parse(req.body)
 
 	try {
-		await addUser(username, password)
+		await addUser(username, password, adminKey === REGISTER_ADMIN_KEY)
 
 		return { res: {
 			status: HTTP.OK,
