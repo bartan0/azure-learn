@@ -29,6 +29,7 @@ services:
         build: './serverapp'
         environment:
             CORS_ALLOWED_ORIGINS: '$CORS_ALLOWED_ORIGINS'
+            JWT_SECRET: '$JWT_SECRET'
             MONGO_URL: 'mongodb://mongo:27017/develop'
             PORT: '8000'
         volumes:
