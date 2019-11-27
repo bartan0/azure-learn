@@ -1,5 +1,5 @@
 import HTTP from 'http-status-codes'
-import express from 'express'
+import express, { json } from 'express'
 
 import CORS from './lib/cors'
 import Router from './router'
@@ -8,16 +8,14 @@ import Router from './router'
 const { PORT } = process.env
 
 export default context => {
-	const router = Router()
-	const cors = CORS()
-
 	const server = express()
 		.use((req, res, next) => {
 			req.context = context
 			next()
 		})
-		.options('*', cors)
-		.use(router)
+		.options('*', CORS())
+		.use(json())
+		.use(Router())
 		.use((err, req, res, next) => {
 			console.error(`Serverapp: Error: ${err}`)
 

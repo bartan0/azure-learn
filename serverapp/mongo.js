@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 
 
 const { MONGO_URL } = process.env
@@ -13,3 +13,5 @@ export default async () => {
 
 	return collName => db.collection(collName)
 }
+
+export const ID = id => ObjectId(id)

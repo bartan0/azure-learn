@@ -1,6 +1,8 @@
 import HTTP from 'http-status-codes'
 import { Router } from 'express'
 
+import Users from './routes/users'
+import Tasks from './routes/tasks'
 import getAuthz from './lib/jwt'
 
 
@@ -16,7 +18,14 @@ export default () => {
 				res.status(HTTP.UNAUTHORIZED).end()
 			}
 		})
+
+		.use('/users', Users())
+		.use('/tasks', Tasks())
+
 		.use((req, res) => {
 			res.status(HTTP.NOT_FOUND).end()
+		})
+		.use((err, req, res, next) => {
+			res.status(err).end()
 		})
 }
