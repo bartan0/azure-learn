@@ -26,13 +26,13 @@ export default context => {
 				.end(':(')
 		})
 
-		.on('close', () => {
-			console.log('Serverapp: server closed')
-		})
 		.listen(PORT, () => {
 			const { address, port } = server.address()
 
 			console.log(`Serverapp: listening @${address}:${port}`)
+		})
+		.on('close', () => {
+			console.log('Serverapp: server closed')
 		})
 
 	return server

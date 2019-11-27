@@ -3,16 +3,14 @@ import Server from './server'
 
 
 const main = async () => {
+	console.log('Serverapp: starting')
+
 	const db = await DB()
 	const server = Server({ db })
 
-	process
-		.on('SIGTERM', () => {
-			server.close()
-		})
-		.on('SIGINT', () => {
-			server.close()
-		})
+	;[ 'SIGINT', 'SIGTERM' ].forEach(sig => process.on(sig, () => {
+		server.close(() => process.exit())
+	}))
 }
 
 

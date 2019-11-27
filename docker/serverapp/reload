@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Restarting service"
+
+PID=$(cat $SERVICE_PID_FILE)
+
+kill -TERM $PID
+wait $PID
+
+node ./app/main.js & echo $! >$SERVICE_PID_FILE

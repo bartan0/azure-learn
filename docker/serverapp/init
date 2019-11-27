@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export SERVICE_PID_FILE=/run/service.pid
+
+node ./app/main.js & echo $! >$SERVICE_PID_FILE
+inotifyd ./reload ./app/main.js:w &
+
+wait

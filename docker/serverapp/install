@@ -1,4 +1,9 @@
 #!/bin/sh
 
-npm install --global --unsafe-perm \
-	nodemon
+set -e
+set -x
+
+apk update
+apk add \
+	inotify-tools \
+	tini

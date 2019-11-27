@@ -9,5 +9,7 @@ export default async () => {
 	})
 		.then(conn => conn.db())
 
+	console.log('Serverapp: connected to database')
+
 	return collName => db.collection(collName)
 }
