@@ -3,9 +3,10 @@ import { all, call } from 'redux-saga/effects'
 
 import api from './api'
 import log from './log'
+import navigator from './navigator'
 
 
-export default () => {
+export default context => {
 	const saga = Saga()
 
 	return {
@@ -14,8 +15,9 @@ export default () => {
 			yield all([
 				api,
 				log,
+				navigator,
 			]
-				.map(call)
+				.map(saga => call(saga, context))
 			)
 		})
 	}

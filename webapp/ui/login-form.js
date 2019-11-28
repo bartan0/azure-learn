@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { Login } from 'azure-learn-webapp/actions'
+import { Login, Navigate } from 'azure-learn-webapp/actions'
 import Messages from 'azure-learn-webapp/messages'
 
 
@@ -27,9 +27,11 @@ const validate = ({
 export default connect(
 	null,
 	dispatch => ({
-		onLogin: (model) => dispatch(Login(model))
+		onGoRegister: () => dispatch(Navigate('/register')),
+		onLogin: model => dispatch(Login(model)),
 	})
 )(({
+	onGoRegister,
 	onLogin,
 }) => {
 	const [ errors, setErrors ] = useState([])
@@ -50,29 +52,39 @@ export default connect(
 		<form
 			onSubmit={submit}
 		>
-			<label>
-				<span>Username:</span>
-				<input type="text" name="username"/>
-				{errors
-					.filter(({ field }) => field === 'username')
-					.map(({ msgKey }) =>
-						<span key={msgKey}>{Messages[msgKey]}</span>
-					)
-				}
-			</label>
+			<div>
+				<label>
+					<span>Username:</span>
+					<input type="text" name="username"/>
+					{errors
+						.filter(({ field }) => field === 'username')
+						.map(({ msgKey }) =>
+							<span key={msgKey}>{Messages[msgKey]}</span>
+						)
+					}
+				</label>
+			</div>
 
-			<label>
-				<span>Password:</span>
-				<input type="password" name="password"/>
-				{errors
-					.filter(({ field }) => field === 'password')
-					.map(({ msgKey }) =>
-						<span key={msgKey}>{Messages[msgKey]}</span>
-					)
-				}
-			</label>
+			<div>
+				<label>
+					<span>Password:</span>
+					<input type="password" name="password"/>
+					{errors
+						.filter(({ field }) => field === 'password')
+						.map(({ msgKey }) =>
+							<span key={msgKey}>{Messages[msgKey]}</span>
+						)
+					}
+				</label>
+			</div>
 
-			<button>Login</button>
+			<div>
+				<button>Login</button>
+				<button
+					type="button"
+					onClick={onGoRegister}
+				>Register</button>
+			</div>
 		</form>
 	)
 })
