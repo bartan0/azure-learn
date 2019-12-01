@@ -28,6 +28,10 @@ const main = async () => {
 
 	sagaRun()
 	ReactDOM.render(app, root)
+
+	window.dev = {
+		store
+	}
 }
 
 
