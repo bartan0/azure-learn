@@ -4,7 +4,7 @@ import { Type } from 'azure-learn-webapp/actions'
 export default (tasks = [], { type, ...payload }) => {
 	switch (type) {
 
-		case Type.SET_TASKS:
+		case Type.TASKS_SET:
 			return payload.tasks
 
 		default:

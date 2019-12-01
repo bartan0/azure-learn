@@ -21,9 +21,9 @@ function* login ({ username, password }) {
 }
 
 
-function* register ({ baseURL }, { username, password, adminKey }) {
+function* register ({ functionappBaseURL }, { username, password, adminKey }) {
 	try {
-		const res = yield call(fetch, `${baseURL}/register`, {
+		const res = yield call(fetch, `${functionappBaseURL}/register`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'x-www-urlencoded' },
 			body: new URLSearchParams({ username, password, adminKey })

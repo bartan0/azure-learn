@@ -1,19 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+
+import { LoadTasks } from 'azure-learn-webapp/actions'
 
 
 export default connect(
-	({ tasks }) => ({ tasks })
+	({ tasks }) => ({ tasks }),
+	dispatch => ({
+		loadTasks: () => dispatch(LoadTasks()),
+	})
 )(({
-	tasks
-}) =>
-	<div>
-		<h2>TASKS VIEW</h2>
+	tasks,
 
-		<ul>
-			{tasks.map(({ id, content }) =>
-				<li key={id}>{content}</li>
-			)}
-		</ul>
-	</div>
-)
+	loadTasks,
+}) => {
+	useEffect(() => {
+		loadTasks()
+	}, [])
+
+	return (
+		<div>
+			<h2>TASKS VIEW</h2>
+
+			<ul>
+				{tasks.map(({ id, content }) =>
+					<li key={id}>{content}</li>
+				)}
+			</ul>
+		</div>
+	)
+})
