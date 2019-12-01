@@ -30,11 +30,20 @@ function* register ({ baseURL }, { username, password }) {
 			headers: { 'Content-Type': 'x-www-urlencoded' },
 			body: new URLSearchParams({ username, password })
 		})
+
+		if (!res.ok)
+			throw [ res.status, res.statusText ]
+
 		const jwt = yield call([ res, 'text' ])
+		const { roles } = JWT.decode(jwt)
 
-		yield put(SetMe(JWT.decode(jwt)))
+		yield put(SetMe({ roles: {
+			admin: roles.includes('admin'),
+			anonymous: false,
+			user: roles.includes('user'),
+		} }))
 
-	} catch {
+	} catch (err) {
 		console.error(err)
 	}
 }
