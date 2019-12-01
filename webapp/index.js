@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createBrowserHistory } from 'history'
 
-import { createAppRoot } from './dom'
+import { createAppRoot } from './lib/dom'
 import { Initialize } from './actions'
 import Store from './store'
 import Router from './router'
