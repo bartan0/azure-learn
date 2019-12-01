@@ -20,7 +20,7 @@ export default connect(
 
 	return (
 		<div>
-			<h2>TASKS VIEW</h2>
+			<h2>Tasks</h2>
 
 			<ul>
 				{tasks.map(({ id, content }) =>
