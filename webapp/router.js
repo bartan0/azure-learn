@@ -22,10 +22,10 @@ export default connect(
 	return (
 		<Router {...rest}>
 			<Switch>
-				{admin && <Route path="/" render={() => <AdminPanel/>}/>}
-				{anonymous && <Route path="/login" render={() => <AuthPanel mode={AuthPanelMode.LOGIN}/>}/>}
-				{anonymous && <Route path="/register" render={() => <AuthPanel mode={AuthPanelMode.REGISTER}/>}/>}
-				{user && <Route path="/" render={() => <TasksView/>}/>}
+				{admin && <Route exact path="/" render={() => <AdminPanel/>}/>}
+				{anonymous && <Route exact path="/login" render={() => <AuthPanel mode={AuthPanelMode.LOGIN}/>}/>}
+				{anonymous && <Route exact path="/register" render={() => <AuthPanel mode={AuthPanelMode.REGISTER}/>}/>}
+				{user && <Route exact path="/" render={() => <TasksView/>}/>}
 
 				{anonymous && <Redirect to="/login"/>}
 				<Redirect to="/"/>
