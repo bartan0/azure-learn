@@ -1,4 +1,10 @@
-import { call, takeEvery } from 'redux-saga/effects'
+import JWT from 'jsonwebtoken'
+import { all, call, put, takeEvery } from 'redux-saga/effects'
+
+import {
+	Type,
+	SetMe,
+} from 'azure-learn-webapp/actions'
 
 
 // TEMPORARY IMPLEMENTATION FOR TESTING PURPOSES
@@ -17,6 +23,29 @@ function* login ({ username, password }) {
 }
 
 
-export default function* () {
-	yield takeEvery('LOGIN', login)
+function* register ({ baseURL }, { username, password }) {
+	try {
+		const res = yield call(fetch, `${baseURL}/register`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'x-www-urlencoded' },
+			body: new URLSearchParams({ username, password })
+		})
+		const jwt = yield call([ res, 'text' ])
+
+		yield put(SetMe(JWT.decode(jwt)))
+
+	} catch {
+		console.error(err)
+	}
+}
+
+
+export default function* (context) {
+	/*
+	yield all([
+		[ Type.LOGIN, login ],
+		[ Type.REGISTER, register ],
+	].map((action, saga) => takeEvery(action, saga, context)))
+	*/
+	yield takeEvery(Type.REGISTER, register, context)
 }

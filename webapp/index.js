@@ -16,7 +16,10 @@ import './index.html'
 const main = async () => {
 	const root = await createAppRoot()
 	const history = createBrowserHistory()
-	const { saga, sagaRun } = Saga({ history })
+	const { saga, sagaRun } = Saga({
+		baseURL: 'http://localhost:8100/api',
+		history,
+	})
 	const store = Store(saga)
 	const app =
 		<Provider store={store}>
