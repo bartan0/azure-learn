@@ -1,12 +1,8 @@
 import JWT from 'jsonwebtoken'
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 
+import { SetMe, Store, Type } from 'azure-learn-webapp/actions'
 import { getRoles } from 'azure-learn-webapp/lib'
-import {
-	Type,
-	SetMe,
-	Store,
-} from 'azure-learn-webapp/actions'
 
 
 // TEMPORARY IMPLEMENTATION FOR TESTING PURPOSES
@@ -48,11 +44,10 @@ function* register ({ baseURL }, { username, password, adminKey }) {
 
 
 export default function* (context) {
-	/*
 	yield all([
 		[ Type.LOGIN, login ],
 		[ Type.REGISTER, register ],
-	].map((action, saga) => takeEvery(action, saga, context)))
-	*/
-	yield takeEvery(Type.REGISTER, register, context)
+	]
+		.map(([ action, saga ]) => takeEvery(action, saga, context))
+	)
 }
