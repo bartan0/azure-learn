@@ -2,6 +2,7 @@ const Action = (type, payload) => ({ type, ...payload })
 
 
 export const Type = {
+	INITIALIZE: 'ACTION::INITIALIZE',
 	LOGIN: 'ACTION::LOGIN',
 	NAVIGATE: 'ACTION::NAVIGATE',
 	REGISTER: 'ACTION::REGISTER',
@@ -9,6 +10,7 @@ export const Type = {
 	STORE: 'ACTION::STORE',
 }
 
+export const Initialize = () => Action(Type.INITIALIZE)
 export const Login = model => Action(Type.LOGIN, model)
 export const Navigate = uri => Action(Type.NAVIGATE, { uri })
 export const Register = model => Action(Type.REGISTER, model)

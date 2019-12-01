@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { createBrowserHistory } from 'history'
 
 import { createAppRoot } from './dom'
+import { Initialize } from './actions'
 import Store from './store'
 import Router from './router'
 import Saga from './saga'
@@ -27,10 +28,14 @@ const main = async () => {
 		</Provider>
 
 	sagaRun()
+	store.dispatch(Initialize())
 	ReactDOM.render(app, root)
 
 	window.dev = {
-		store
+		dispatch: action => store.dispatch(action),
+		get state () {
+			return store.getState()
+		}
 	}
 }
 
