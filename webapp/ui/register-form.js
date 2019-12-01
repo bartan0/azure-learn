@@ -5,12 +5,13 @@ import { Register, Navigate } from 'azure-learn-webapp/actions'
 import T from 'azure-learn-webapp/messages'
 
 
-const validate = ({
-	username: { value: username },
-	password: { value: password },
-	passwordRepeat: { value: passwordRepeat },
-}, cb) => {
+const validate = (controls, cb) => {
 	const errors = []
+	const {
+		username: { value: username },
+		password: { value: password },
+		passwordRepeat: { value: passwordRepeat },
+	} = controls
 
 	if (!username)
 		errors.push({ field: 'username', msgKey: 'LOGIN_USERNAME_REQUIRED' })
@@ -26,7 +27,11 @@ const validate = ({
 
 	cb(
 		errors.length ? errors : null,
-		{ username, password }
+		{
+			username,
+			password,
+			adminKey: (controls.adminKey || {}).value
+		}
 	)
 }
 
@@ -42,6 +47,7 @@ export default connect(
 	onRegister,
 }) => {
 	const [ errors, setErrors ] = useState([])
+	const [ showAdvanced, setShowAdvanced ] = useState(false)
 	const submit = ev => {
 		ev.preventDefault()
 
@@ -97,6 +103,29 @@ export default connect(
 					}
 				</label>
 			</div>
+
+			<div>
+				<label>
+					<input
+						checked={showAdvanced}
+						type="checkbox"
+
+						onChange={() => setShowAdvanced(v => !v)}
+					/>
+					<span>Show advanced options</span>
+				</label>
+			</div>
+
+			{showAdvanced &&
+				<div>
+					<div>
+						<label>
+							<span>Admin key:</span>
+							<input type="password" name="adminKey"/>
+						</label>
+					</div>
+				</div>
+			}
 
 			<button>Register</button>
 			<button

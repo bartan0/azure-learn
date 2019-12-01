@@ -1,6 +1,7 @@
 import JWT from 'jsonwebtoken'
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 
+import { getRoles } from 'azure-learn-webapp/lib'
 import {
 	Type,
 	SetMe,
@@ -23,25 +24,20 @@ function* login ({ username, password }) {
 }
 
 
-function* register ({ baseURL }, { username, password }) {
+function* register ({ baseURL }, { username, password, adminKey }) {
 	try {
 		const res = yield call(fetch, `${baseURL}/register`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'x-www-urlencoded' },
-			body: new URLSearchParams({ username, password })
+			body: new URLSearchParams({ username, password, adminKey })
 		})
 
 		if (!res.ok)
 			throw [ res.status, res.statusText ]
 
 		const jwt = yield call([ res, 'text' ])
-		const { roles } = JWT.decode(jwt)
 
-		yield put(SetMe({ roles: {
-			admin: roles.includes('admin'),
-			anonymous: false,
-			user: roles.includes('user'),
-		} }))
+		yield put(SetMe({ roles: getRoles(JWT.decode(jwt).roles) }))
 
 	} catch (err) {
 		console.error(err)
