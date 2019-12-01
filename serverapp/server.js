@@ -13,7 +13,12 @@ export default context => {
 			req.context = context
 			next()
 		})
-		.options('*', CORS())
+		.use((req, res, next) => {
+			console.log(`${req.method} ${req.url}`)
+
+			next()
+		})
+		.use(CORS())
 		.use(json())
 		.use(Router())
 		.use((err, req, res, next) => {
