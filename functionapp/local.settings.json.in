@@ -1,4 +1,7 @@
 {
+	"Host": {
+		"CORS": "http://localhost:8080"
+	},
 	"IsEncrypted": false,
 	"Values": {
 		"MONGO_URL": "mongodb://mongo:27017/develop",
