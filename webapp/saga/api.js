@@ -5,6 +5,7 @@ import { getRoles } from 'azure-learn-webapp/lib'
 import {
 	Type,
 	SetMe,
+	Store,
 } from 'azure-learn-webapp/actions'
 
 
@@ -37,6 +38,7 @@ function* register ({ baseURL }, { username, password, adminKey }) {
 
 		const jwt = yield call([ res, 'text' ])
 
+		yield put(Store('jwt', jwt))
 		yield put(SetMe({ roles: getRoles(JWT.decode(jwt).roles) }))
 
 	} catch (err) {
