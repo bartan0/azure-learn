@@ -32,7 +32,7 @@ const main = async () => {
 	ReactDOM.render(app, root)
 
 	window.dev = {
-		dispatch: action => store.dispatch(action),
+		dispatch: (type, payload) => store.dispatch({ type, ...payload }),
 		get state () {
 			return store.getState()
 		}
