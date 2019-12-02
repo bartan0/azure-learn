@@ -5,15 +5,21 @@ import { SetMe, Store, Type } from 'azure-learn-webapp/actions'
 import { getRoles } from 'azure-learn-webapp/lib'
 
 
-// TEMPORARY IMPLEMENTATION FOR TESTING PURPOSES
-//
-function* login ({ username, password }) {
+function* login ({ functionappBaseURL }, { username, password }) {
 	try {
-		yield call(fetch, 'http://localhost:8000/test/login', {
+		const res = yield call(fetch, `${functionappBaseURL}/login`, {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ username, password })
+			headers: { 'Content-Type': 'application/x-www-urlencoded' },
+			body: new URLSearchParams({ username, password })
 		})
+
+		if (!res.ok)
+			throw [ res.status, res.statusText ]
+
+		const jwt = yield call([ res, 'text' ])
+
+		yield put(Store('jwt', jwt))
+		yield put(SetMe({ roles: getRoles(JWT.decode(jwt).roles) }))
 
 	} catch (err) {
 		console.error(err)
