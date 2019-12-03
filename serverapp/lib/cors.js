@@ -8,6 +8,7 @@ const CORS_METHODS = [
 ]
 const CORS_HEADERS = [
 	'Authorization',
+	'Content-Type',
 ]
 
 export default () => {

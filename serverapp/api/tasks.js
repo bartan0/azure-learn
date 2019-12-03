@@ -41,6 +41,6 @@ export const createTask = [
 				content: body.content,
 				userId: ID(userId),
 			})
-			.then(({ insertedId }) => res.end(`${insertedId.toString()}\n`))
+			.then(({ insertedId }) => res.end(insertedId.toString()))
 	}
 ]
