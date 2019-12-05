@@ -20,6 +20,14 @@ MANAGE=./manage
 cd $(dirname $0)
 source ./config
 
+for _DIR in \
+	$FUNCTIONAPP_DIR \
+	$SERVERAPP_DIR   \
+	$NGINX_DIR
+do
+	mkdir -p $_DIR
+done
+
 FUNCTIONAPP_DIR=$(realpath $FUNCTIONAPP_DIR)
 SERVERAPP_DIR=$(realpath $SERVERAPP_DIR)
 NGINX_DIR=$(realpath $NGINX_DIR)
