@@ -1,5 +1,18 @@
 #!/bin/bash
 
+
+function build
+{
+	source ./config.production
+
+	npm run webapp-build &
+	npm run serverapp-build &
+	npm run functionapp-build &
+
+	wait
+}
+
+
 set -e
 
 MANAGE=./manage
@@ -23,7 +36,11 @@ shift
 
 case $CMD in
 
+	(build) build ;;
+
 	(docker) _DOCKER_ARGS="$@" exec $MANAGE _docker ;;
+
+	(npm) npm $@ ;;
 
 	(sh|shell) _DOCKER_ARGS="exec $1 sh" exec $MANAGE _docker ;;
 

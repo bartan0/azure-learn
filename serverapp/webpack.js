@@ -1,16 +1,21 @@
 const { resolve } = require('path')
 
 
+const { MODE } = process.env
+
+const isProduction = MODE === 'production'
+
+
 module.exports = {
 	context: resolve(__dirname, '..'),
 	entry: {
 		'main.js': './serverapp/index.js'
 	},
 	target: 'node',
-	mode: 'development',
+	mode: isProduction ? 'production' : 'development',
 
 	output: {
-		path: resolve(__dirname, '..', 'dist', 'serverapp'),
+		path: resolve(__dirname, '..', isProduction ? 'dist-prod' : 'dist', 'serverapp'),
 		filename: './[name]'
 	},
 

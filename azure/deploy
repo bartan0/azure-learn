@@ -1,0 +1,40 @@
+#!/bin/bash
+
+AZ=az
+ZIP=zip
+
+cd $(dirname $0)
+set -e
+source ./config
+
+FUNCTIONAPP_NAME="$STORAGE_ACCOUNT-func"
+WEBAPP_NAME="$STORAGE_ACCOUNT-srv"
+
+
+echo "Starting deployment to Azure"
+cd ../dist-prod
+
+cd ./functionapp && rm -f deploy.zip && $ZIP -r deploy.zip . && cd -
+cd ./serverapp && rm -f deploy.zip && $ZIP -r deploy.zip . && cd -
+
+$AZ storage blob sync \
+	--account-name $STORAGE_ACCOUNT \
+	--container '$web' \
+	--source ./webapp \
+	&
+
+$AZ functionapp deployment source config-zip \
+	--src ./functionapp/deploy.zip \
+	--name $FUNCTIONAPP_NAME \
+	--resource-group $GROUP \
+	&
+
+$AZ webapp deployment source config-zip \
+	--src ./serverapp/deploy.zip \
+	--name $WEBAPP_NAME \
+	--resource-group $GROUP \
+	&
+
+wait
+cd ../azure
+echo "Done"

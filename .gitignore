@@ -1,3 +1,6 @@
 .*.swp
+azure/config
+config.production
 dist
+dist-prod
 node_modules

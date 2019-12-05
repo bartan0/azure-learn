@@ -1,0 +1,120 @@
+#!/bin/bash
+
+AZ=az
+
+cd $(dirname $0)
+set -e
+source ./config
+
+FUNCTIONAPP_NAME="$STORAGE_ACCOUNT-func"
+WEBAPP_NAME="$STORAGE_ACCOUNT-srv"
+WEBAPP_STARTUP='node ./main.js'
+
+
+echo "Creating resource group $GROUP"
+
+$AZ group create \
+	--location $LOCATION \
+	--name $GROUP
+
+echo "Done"
+
+
+echo "Creating storage account and app service plan"
+
+$AZ storage account create \
+	--kind StorageV2 \
+	--location $LOCATION \
+	--name $STORAGE_ACCOUNT \
+	--resource-group $GROUP \
+	--sku Standard_LRS \
+	&
+
+$AZ appservice plan create \
+	--is-linux \
+	--location $LOCATION \
+	--name $APPSERVICE_PLAN \
+	--resource-group $GROUP \
+	--sku B1 \
+	&
+
+wait
+echo "Done"
+
+
+echo "Creating web app, function app and CosmosDB account"
+
+$AZ cosmosdb create \
+	--name $COSMOSDB_NAME \
+	--resource-group $GROUP \
+	--kind MongoDB \
+	&
+
+$AZ functionapp create \
+	--name $FUNCTIONAPP_NAME \
+	--resource-group $GROUP \
+	--storage-account $STORAGE_ACCOUNT \
+	--plan $APPSERVICE_PLAN \
+	--os-type Linux \
+	--runtime node \
+	--runtime-version 10 \
+	&
+
+$AZ webapp create \
+	--name $WEBAPP_NAME \
+	--plan $APPSERVICE_PLAN \
+	--resource-group $GROUP \
+	--runtime 'node|10.14' \
+	--startup-file "$WEBAPP_STARTUP" \
+	&
+
+wait
+echo "Done"
+
+
+echo "Configuring resources"
+
+$AZ storage blob service-properties update \
+	--account-name $STORAGE_ACCOUNT \
+	--404-document index.html \
+	--index-document index.html \
+	--static-website \
+	&
+
+COSMOSDB_KEY=$(
+	$AZ cosmosdb keys list \
+		--resource-group $GROUP \
+		--name $COSMOSDB_NAME \
+		--output tsv \
+		--query 'primaryMasterKey'
+)
+MONGO_URL="mongodb://$COSMOSDB_NAME:$COSMOSDB_KEY@$COSMOSDB_NAME.documents.azure.com:10255/?ssl=true&replicaSet=globaldb"
+HTTP_ORIGIN="https://$STORAGE_ACCOUNT.z6.web.core.windows.net"
+
+$AZ functionapp config appsettings set \
+	--name $FUNCTIONAPP_NAME \
+	--resource-group $GROUP \
+	--settings \
+		JWT_SECRET='jwt-secret' \
+		MONGO_URL="$MONGO_URL" \
+		REGISTER_ADMIN_KEY='let-me-in' \
+	&
+
+$AZ functionapp cors add \
+	--allowed-origins "$HTTP_ORIGIN" \
+	--name $FUNCTIONAPP_NAME \
+	--resource-group $GROUP \
+	&
+
+$AZ webapp config appsettings set \
+	--name $WEBAPP_NAME \
+	--resource-group $GROUP \
+	--settings \
+		CORS_ALLOWED_ORIGINS="$HTTP_ORIGIN" \
+		JWT_SECRET='jwt-secret' \
+		MONGO_URL="$MONGO_URL" \
+		PORT=80 \
+	&
+
+wait
+echo "Done"

@@ -18,8 +18,8 @@ const main = async () => {
 	const root = await createAppRoot()
 	const history = createBrowserHistory()
 	const { saga, sagaRun } = Saga({
-		functionappBaseURL: 'http://localhost:8100/api',
-		serverappBaseURL: 'http://localhost:8000',
+		functionappBaseURL: __URL_FUNCTIONAPP,
+		serverappBaseURL: __URL_SERVERAPP,
 		history,
 	})
 	const store = Store(saga)

@@ -1,6 +1,11 @@
 const { resolve } = require('path')
 
 
+const { MODE } = process.env
+
+const isProduction = MODE === 'production'
+
+
 module.exports = {
 	context: resolve(__dirname, '..'),
 	entry: {
@@ -9,10 +14,10 @@ module.exports = {
 		'./register/index.js': './functionapp/register/index.js',
 	},
 	target: 'node',
-	mode: 'development',
+	mode: isProduction ? 'production' : 'development',
 
 	output: {
-		path: resolve(__dirname, '..', 'dist', 'functionapp'),
+		path: resolve(__dirname, '..', isProduction ? 'dist-prod' : 'dist', 'functionapp'),
 		filename: '[name]',
 		libraryTarget: 'commonjs'
 	},
