@@ -25,6 +25,7 @@
 		"webpack-cli": "^3.3.10"
 	},
 	"dependencies": {
+		"azure-learn-functionapp": "file:functionapp",
 		"azure-learn-serverapp": "file:serverapp",
 		"azure-learn-webapp": "file:webapp"
 	}
